@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
 
 import java.security.Key;
+import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Date;
 
@@ -21,10 +22,12 @@ import java.util.Date;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
+
     @Value("${padel.app.jwtSecret}")
     private String jwtSecret;
     @Value("${padel.app.jwtExpirationMs}")
-    private long jwtExpirationMs;
+    private int jwtExpirationMs;
+
     @Value("${padel.app.jwtCookieName}")
     private String jwtCookie;
 
@@ -37,39 +40,46 @@ public class JwtUtils {
         }
     }
 
-    public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal){
+    public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
         String jwt = generateTokenFromUsername(userPrincipal.getUsername());
-        ResponseCookie cookie = ResponseCookie.from(jwtCookie, null ).path("/").maxAge(24*60*60).httpOnly(true).build();
+        ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path("/").maxAge(24 * 60 * 60).httpOnly(true).build();
         return cookie;
     }
 
-    public ResponseCookie getCleanJwtCookie(){
-        ResponseCookie cookie = ResponseCookie.from(jwtCookie, null ).path("/").build();
+    public ResponseCookie getCleanJwtCookie() {
+        ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/").build();
         return cookie;
     }
 
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key()).build()
-                .parseClaimsJwt(token).getBody().getSubject();
+        return Jwts.parserBuilder()
+                .setSigningKey(key())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 
-    private Key key(){
+    private Key key() {
+
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
+
 
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
             return true;
-        }catch (MalformedJwtException e){
-            logger.error("Invalid JWT token", e.getMessage());
-        }catch (ExpiredJwtException e){
-            logger.error("Expired JWT token", e.getMessage());
-        }catch (UnsupportedJwtException e){
-            logger.error("Unsupported JWT token", e.getMessage());
-        }catch (IllegalArgumentException e){
-            logger.error("JWT claims string is empty", e.getMessage());
+        } catch (MalformedJwtException e) {
+            logger.error("Invalid JWT token: {}", e.getMessage());
+        } catch (ExpiredJwtException e) {
+            logger.error("JWT token is expired: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            logger.error("JWT token is unsupported: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.error("JWT claims string is empty: {}", e.getMessage());
         }
+
         return false;
     }
 
@@ -82,5 +92,4 @@ public class JwtUtils {
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
-
 }

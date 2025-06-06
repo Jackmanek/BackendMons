@@ -13,12 +13,13 @@ public class Player {
     private int age;
     private String gender;
     private String imgUrl;
+    @Embedded
     private DataContact dataContact;
     @ManyToOne()
     @JoinColumn(name = "team_id")
     private Team team;
     public Player() {}
-    public Player( String name, String surname, int age, String gender, String imgUrl) {
+    public Player( String name, String surname, int age, String gender, String imgUrl, DataContact dataContact, Team team) {
         this.name = name;
         this.surname = surname;
         this.age = age;

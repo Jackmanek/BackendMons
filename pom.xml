@@ -102,6 +102,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-community-dialects</artifactId>
+			<version>6.6.17.Final</version>
+		</dependency>
 	</dependencies>
 
 	<build>

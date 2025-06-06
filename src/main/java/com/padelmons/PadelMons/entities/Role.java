@@ -6,8 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "roles")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_seq")
-    @SequenceGenerator(name = "roles_seq", sequenceName = "roles_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Enumerated(EnumType.STRING)
     @Column(length = 20 ,nullable = false, unique = true)
