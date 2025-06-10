@@ -5,7 +5,6 @@ import com.padelmons.PadelMons.entities.Fase;
 import com.padelmons.PadelMons.entities.Team;
 import com.padelmons.PadelMons.repositories.CategoriaRepository;
 import com.padelmons.PadelMons.repositories.TeamRepository;
-import com.padelmons.PadelMons.repositories.TemporadaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
