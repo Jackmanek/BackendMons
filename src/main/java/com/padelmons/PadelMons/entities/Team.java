@@ -22,6 +22,10 @@ public class Team {
     private int noPresentado;
     private int mediaSets;
     private int mediaJuegos;
+
+    @ManyToOne
+    private Categoria categoria;
+
     public Team() {}
     public Team(String name) {
         this.name = name;
@@ -114,5 +118,13 @@ public class Team {
 
     public void setMediaJuegos(int mediaJuegos) {
         this.mediaJuegos = mediaJuegos;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }
