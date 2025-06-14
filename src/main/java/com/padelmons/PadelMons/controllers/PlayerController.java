@@ -7,11 +7,9 @@ import com.padelmons.PadelMons.repositories.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -39,6 +37,11 @@ public class PlayerController {
         Player saved = playerRepository.save(player);
 
         return ResponseEntity.ok(saved);
+    }
+    @GetMapping("/showplayers")
+    public ResponseEntity<List<Player>> showPlayers() {
+        List<Player> players = playerRepository.findAll();
+        return ResponseEntity.ok(players);
     }
 
 

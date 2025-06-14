@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 public class Categoria {
     @Id
-    @GeneratedValue(generator = "ID_GENERATOR")
+    @GeneratedValue
     private Long id;
     private String nombre;
     private int orden;

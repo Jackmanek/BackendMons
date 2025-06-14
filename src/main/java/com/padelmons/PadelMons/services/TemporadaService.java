@@ -3,8 +3,11 @@ package com.padelmons.PadelMons.services;
 import com.padelmons.PadelMons.entities.Categoria;
 import com.padelmons.PadelMons.entities.Fase;
 import com.padelmons.PadelMons.entities.Team;
+import com.padelmons.PadelMons.entities.Temporada;
 import com.padelmons.PadelMons.repositories.CategoriaRepository;
+import com.padelmons.PadelMons.repositories.FaseRepository;
 import com.padelmons.PadelMons.repositories.TeamRepository;
+import com.padelmons.PadelMons.repositories.TemporadaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +18,26 @@ import java.util.List;
 public class TemporadaService {
     private final CategoriaRepository categoriaRepository;
     private final TeamRepository teamRepository;
+    private final FaseRepository faseRepository;
+    private final TemporadaRepository temporadaRepository;
 
-    public TemporadaService(CategoriaRepository categoriaRepository, TeamRepository teamRepository) {
+    public TemporadaService(CategoriaRepository categoriaRepository, TeamRepository teamRepository, FaseRepository faseRepository, TemporadaRepository temporadaRepository) {
         this.categoriaRepository = categoriaRepository;
         this.teamRepository = teamRepository;
+        this.faseRepository = faseRepository;
+        this.temporadaRepository = temporadaRepository;
+    }
+
+    public Temporada crearTemporadaConFases(Temporada temporada) {
+        Temporada temporadaAux = temporadaRepository.save(temporada);
+        for(int i=1;i<=3;i++){
+            Fase fase = new Fase();
+            fase.setNombre("Fase "+i);
+            fase.setTemporada(temporadaAux);
+            Fase faseAux = faseRepository.save(fase);
+            crearCategoriasParaFases(faseAux);
+        }
+        return temporadaAux;
     }
 
     public void crearCategoriasParaFases(Fase fase) {

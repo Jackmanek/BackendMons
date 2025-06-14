@@ -11,7 +11,7 @@ public class Temporada {
     private Long id;
     private String nombre;
 
-    @OneToMany(mappedBy = "temporada")
+    @OneToMany(mappedBy = "temporada", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Fase> fases;
 
     public Temporada() {}

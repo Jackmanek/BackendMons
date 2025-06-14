@@ -20,13 +20,21 @@ public class Fase {
 
     @ManyToMany
     private List<Team> teams;
+
+    @OneToMany(mappedBy = "fase", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Categoria> categorias;
+
     public Fase() {}
+
+    public Fase(String nombre, int orden) {
+        this.nombre = nombre;
+        this.orden = orden;
+    }
     public Fase(String nombre, int orden, Temporada temporada) {
         this.nombre = nombre;
         this.orden = orden;
         this.temporada = temporada;
     }
-
     public Long getId() {
         return id;
     }
@@ -73,5 +81,13 @@ public class Fase {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+    }
+
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
     }
 }
