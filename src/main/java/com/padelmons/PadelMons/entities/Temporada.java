@@ -1,5 +1,6 @@
 package com.padelmons.PadelMons.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class Temporada {
     private String nombre;
 
     @OneToMany(mappedBy = "temporada", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference("temporada-fase")
     private List<Fase> fases;
 
     public Temporada() {}

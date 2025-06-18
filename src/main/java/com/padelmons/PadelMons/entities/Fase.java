@@ -1,5 +1,8 @@
 package com.padelmons.PadelMons.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -13,6 +16,7 @@ public class Fase {
     private int orden;
 
     @ManyToOne
+    @JsonBackReference("temporada-fase")
     private Temporada temporada;
 
     @OneToMany(mappedBy = "fase")
@@ -22,6 +26,7 @@ public class Fase {
     private List<Team> teams;
 
     @OneToMany(mappedBy = "fase", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference("fase-categoria")
     private List<Categoria> categorias;
 
     public Fase() {}
