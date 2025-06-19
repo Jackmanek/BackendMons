@@ -1,5 +1,6 @@
 package com.padelmons.PadelMons.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,6 +18,7 @@ public class Player {
     private DataContact dataContact;
     @ManyToOne()
     @JoinColumn(name = "team_id")
+    @JsonBackReference("team-player")
     private Team team;
     public Player() {}
     public Player( String name, String surname, int age, String gender, String imgUrl, DataContact dataContact, Team team) {

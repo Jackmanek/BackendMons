@@ -1,5 +1,6 @@
 package com.padelmons.PadelMons.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Team {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
+    @JsonManagedReference("team-player")
     private List<Player> players = new ArrayList<>();
 
     private int puntos;
