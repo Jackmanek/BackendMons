@@ -1,5 +1,6 @@
 package com.padelmons.PadelMons.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -26,6 +27,7 @@ public class Team {
     private int mediaJuegos;
 
     @ManyToOne
+    @JsonBackReference("categoria-team")
     private Categoria categoria;
 
     public Team() {}
