@@ -1,5 +1,9 @@
 package com.padelmons.PadelMons.controllers;
 
+import com.padelmons.PadelMons.Dto.CategoriaDTO;
+import com.padelmons.PadelMons.Dto.FaseDTO;
+import com.padelmons.PadelMons.Dto.TeamDTO;
+import com.padelmons.PadelMons.Dto.TemporadaDTO;
 import com.padelmons.PadelMons.entities.Categoria;
 import com.padelmons.PadelMons.entities.Fase;
 import com.padelmons.PadelMons.entities.Temporada;
@@ -82,6 +86,45 @@ public class TemporadaController {
     public ResponseEntity<List<Categoria>> showCategorias() {
         List<Categoria> categorias = categoriaRepository.findAll();
         return ResponseEntity.ok(categorias);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/temporada/{id}")
+    public ResponseEntity<?> getTemporadaCompleta(@PathVariable Long id) {
+        Temporada temporada = temporadaRepository.findById(id).orElse(null);
+
+        if (temporada == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        TemporadaDTO dto = new TemporadaDTO();
+        dto.id = temporada.getId();
+        dto.nombre = temporada.getNombre();
+        dto.fases = temporada.getFases().stream().map(f -> {
+            FaseDTO faseDto = new FaseDTO();
+            faseDto.id = f.getId();
+            faseDto.nombre = f.getNombre();
+
+            faseDto.categorias = f.getCategorias().stream().map(c -> {
+                CategoriaDTO catDto = new CategoriaDTO();
+                catDto.id = c.getId();
+                catDto.nombre = c.getNombre();
+
+                catDto.teams = c.getTeams().stream().map(t -> {
+                    TeamDTO teamDto = new TeamDTO();
+                    teamDto.id = t.getId();
+                    teamDto.name = t.getName();
+                    teamDto.puntos = t.getPuntos();
+                    return teamDto;
+                }).toList();
+
+                return catDto;
+            }).toList();
+
+            return faseDto;
+        }).toList();
+
+        return ResponseEntity.ok(dto);
     }
 
 
