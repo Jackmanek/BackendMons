@@ -1,8 +1,7 @@
 package com.padelmons.PadelMons;
 
-import com.padelmons.PadelMons.entities.ERole;
-import com.padelmons.PadelMons.entities.Role;
-import com.padelmons.PadelMons.entities.User;
+import com.padelmons.PadelMons.entities.*;
+import com.padelmons.PadelMons.repositories.PlayerRepository;
 import com.padelmons.PadelMons.repositories.RoleRepository;
 import com.padelmons.PadelMons.repositories.UserRepository;
 import org.springframework.boot.ApplicationRunner;
@@ -23,8 +22,11 @@ public class PadelMonsApplication implements CommandLineRunner {
 	}
 
 	@Bean
-	public ApplicationRunner configure(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder encoder) {
+	public ApplicationRunner configure(PlayerRepository playerRepository, RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder encoder) {
 		return env -> {
+
+
+
 			Role r = new Role(ERole.ROLE_USER);
 			Role r1 = new Role(ERole.ROLE_MODERATOR);
 			Role r2 = new Role(ERole.ROLE_ADMIN);

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/matches")
+@RequestMapping("/api/auth")
 public class MatchController {
 
     private final MatchService matchService;
@@ -19,13 +19,13 @@ public class MatchController {
         this.matchService = matchService;
     }
 
-    @PostMapping
+    @PostMapping("/creatematch")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Match> crearMatch(@RequestBody MatchDTO dto) {
         Match nuevoMatch = matchService.crearMatch(dto);
         return ResponseEntity.ok(nuevoMatch);
     }
-    @GetMapping
+    @GetMapping("/matches")
     public List<Match> listarPartidos() {
         return matchService.listarTodosLosPartidos();
     }
