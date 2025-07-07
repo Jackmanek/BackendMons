@@ -1,5 +1,7 @@
 package com.padelmons.PadelMons.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -12,9 +14,11 @@ public class Jornada {
     private int numJornada;
 
     @ManyToOne
+    @JsonBackReference("fase-jornada")
     private Fase fase;
 
     @OneToMany(mappedBy = "jornada")
+    @JsonManagedReference("jornada-match")
     private List<Match> matches;
     public Jornada() {}
     public Jornada(int numJornada) {

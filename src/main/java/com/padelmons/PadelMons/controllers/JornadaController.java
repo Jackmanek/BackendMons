@@ -29,7 +29,7 @@ public class JornadaController {
         return jornadaService.listarTodas();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/jornada/{id}")
     public ResponseEntity<Jornada> obtenerPorId(@PathVariable Long id) {
         return ResponseEntity.ok(jornadaService.obtenerPorId(id));
     }

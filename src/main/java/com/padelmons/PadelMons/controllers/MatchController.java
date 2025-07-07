@@ -1,6 +1,7 @@
 package com.padelmons.PadelMons.controllers;
 
 import com.padelmons.PadelMons.Dto.MatchDTO;
+import com.padelmons.PadelMons.Dto.ResultadoPartidoDTO;
 import com.padelmons.PadelMons.entities.Match;
 import com.padelmons.PadelMons.services.MatchService;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class MatchController {
         return matchService.listarTodosLosPartidos();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/match/{id}")
     public ResponseEntity<Match> obtenerMatch(@PathVariable Long id) {
         return ResponseEntity.ok(matchService.obtenerMatchPorId(id));
     }
@@ -39,5 +40,12 @@ public class MatchController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Match> finalizarMatch(@PathVariable Long id, @RequestParam boolean finalizado) {
         return ResponseEntity.ok(matchService.actualizarResultado(id, finalizado));
+    }
+
+    @PostMapping("/resultado")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> guardarResultado(@RequestBody ResultadoPartidoDTO dto) {
+        matchService.guardarResultado(dto);
+        return ResponseEntity.ok("Resultado del partido guardado correctamente.");
     }
 }

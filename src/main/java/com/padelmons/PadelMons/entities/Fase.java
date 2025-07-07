@@ -20,9 +20,11 @@ public class Fase {
     private Temporada temporada;
 
     @OneToMany(mappedBy = "fase")
+    @JsonManagedReference("fase-jornada")
     private List<Jornada> jornadas;
 
     @ManyToMany
+    @JsonIgnore
     private List<Team> teams;
 
     @OneToMany(mappedBy = "fase", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

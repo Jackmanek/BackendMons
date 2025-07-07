@@ -1,5 +1,6 @@
 package com.padelmons.PadelMons.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ public class Match {
     private Team visitor;
     @ManyToOne
     @JoinColumn(name = "jornada_id")
+    @JsonBackReference("jornada-match")
     private Jornada jornada;
     @OneToMany (mappedBy = "match")
     private List<SetMatch> sets;
