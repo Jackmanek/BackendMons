@@ -30,7 +30,7 @@ public class TeamController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/createteam")
     public ResponseEntity<Team> createTeam(@RequestBody TeamDTO dto) {
-        Categoria categoria = categoriaRepository.findById(dto.categoriaId)
+        Categoria categoria = categoriaRepository.findById(dto.categoria.getId())
                 .orElseThrow(()-> new RuntimeException("Categoria no encontrada"));
         Team team = new Team(dto.name);
         team.setCategoria(categoria);

@@ -1,5 +1,7 @@
 package com.padelmons.PadelMons.Dto;
 
+import com.padelmons.PadelMons.entities.Categoria;
+
 import java.util.List;
 
 public class TeamDTO {
@@ -7,6 +9,6 @@ public class TeamDTO {
     public String name;
     public int puntos;
 
-    public Long categoriaId;
+    public Categoria categoria;
     public List<Long> playerIds;
 }
