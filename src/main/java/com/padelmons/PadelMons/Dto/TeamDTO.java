@@ -9,6 +9,6 @@ public class TeamDTO {
     public String name;
     public int puntos;
 
-    public Categoria categoria;
+    public Long categoriaId;
     public List<Long> playerIds;
 }

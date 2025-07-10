@@ -1,6 +1,7 @@
 package com.padelmons.PadelMons.controllers;
 
 import com.padelmons.PadelMons.Dto.TeamDTO;
+import com.padelmons.PadelMons.Dto.TeamResponseDTO;
 import com.padelmons.PadelMons.entities.Categoria;
 import com.padelmons.PadelMons.entities.Player;
 import com.padelmons.PadelMons.entities.Team;
@@ -30,10 +31,10 @@ public class TeamController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/createteam")
     public ResponseEntity<Team> createTeam(@RequestBody TeamDTO dto) {
-        Categoria categoria = categoriaRepository.findById(dto.categoria.getId())
+        Categoria catego = categoriaRepository.findById(dto.categoriaId)
                 .orElseThrow(()-> new RuntimeException("Categoria no encontrada"));
         Team team = new Team(dto.name);
-        team.setCategoria(categoria);
+        team.setCategoria(catego);
         List<Player> players = dto.playerIds.stream()
                 .map(id -> playerRepository.findById(id)
                         .orElseThrow(() -> new RuntimeException("Jugador no encontrado con ID: " + id)))
@@ -47,8 +48,11 @@ public class TeamController {
     }
 
     @GetMapping("/teams")
-    public ResponseEntity<List<Team>> mostrarTeams(){
-        List<Team> teams = teamRepository.findAll();
-        return ResponseEntity.ok(teams);
+    public ResponseEntity<List<TeamResponseDTO>> mostrarTeams(){
+        List<TeamResponseDTO> teamDTOs = teamRepository.findAll().stream()
+                .map(TeamResponseDTO::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(teamDTOs);
     }
 }

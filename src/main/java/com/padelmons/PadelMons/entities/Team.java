@@ -131,4 +131,22 @@ public class Team {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", players=" + players +
+                ", puntos=" + puntos +
+                ", partidosJugados=" + partidosJugados +
+                ", victorias=" + victorias +
+                ", derrotas=" + derrotas +
+                ", noJugado=" + noJugado +
+                ", noPresentado=" + noPresentado +
+                ", mediaSets=" + mediaSets +
+                ", mediaJuegos=" + mediaJuegos +
+                ", categoria=" + categoria +
+                '}';
+    }
 }
