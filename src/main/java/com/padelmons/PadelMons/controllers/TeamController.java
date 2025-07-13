@@ -52,6 +52,7 @@ public class TeamController {
         List<TeamResponseDTO> teamDTOs = teamRepository.findAll().stream()
                 .map(TeamResponseDTO::new)
                 .collect(Collectors.toList());
+        System.out.println("hika "+ teamDTOs.toString());
 
         return ResponseEntity.ok(teamDTOs);
     }
